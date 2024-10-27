@@ -30,7 +30,7 @@ const Navbar = () => {
     }
   };
   console.log(isAdmin)
-  if(isAdmin){
+  if(isAdmin && isAuthorized){
     return <AdminNavbar
     isAdmin={isAdmin}
     isAuthorized={isAuthorized}
