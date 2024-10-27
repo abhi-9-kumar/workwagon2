@@ -50,9 +50,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  
 
   const { isAuthorized, setIsAuthorized } = useContext(Context);
-
+  const { isAdmin, setIsAdmin } = useContext(Context);
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -66,16 +67,21 @@ const Login = () => {
         }
       );
       toast.success(data.message);
-
+      console.log(data)
       setEmail("");
       setPassword("");
       setRole("");
       setIsAuthorized(true);
+      if(data?.user?.isAdmin){
+        setIsAdmin(true);
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
-
+  if(isAdmin){
+    return <Navigate to={"/admin"}/>;
+  }
   if (isAuthorized) {
     return <Navigate to={"/"} />;
   }

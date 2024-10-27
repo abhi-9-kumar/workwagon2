@@ -20,7 +20,7 @@ import AdminHome from "./components/Admin/AdminHome";
 import Profile from "./components/Profile/Profile";
 
 const App = () => {
-  const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
+  const { isAuthorized, setIsAuthorized, setUser, setIsAdmin } = useContext(Context);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -33,12 +33,15 @@ const App = () => {
         );
         setUser(response.data.user);
         setIsAuthorized(true);
+        if(response?.data?.user?.isAdmin){
+          setIsAdmin(true);
+        }
       } catch (error) {
         setIsAuthorized(false);
       }
     };
     fetchUser();
-  }, [isAuthorized, setIsAuthorized, setUser]);
+  }, [isAuthorized, setIsAuthorized, setUser, setIsAdmin]);
 
   return (
     <BrowserRouter>

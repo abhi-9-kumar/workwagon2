@@ -25,6 +25,7 @@ const MyApplications = () => {
           })
           .then((res) => {
             setApplications(res.data.applications);
+            console.log(res.data.applications);
           });
       } else {
         axios

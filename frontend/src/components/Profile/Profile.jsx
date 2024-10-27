@@ -80,9 +80,9 @@ const Profile = () => {
   };
 
   const ProfileImageUpload = ({ image, onUpload }) => (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2 ">
       <div className="relative group w-40 h-40">
-        <div className="w-full h-full rounded-full overflow-hidden border-4 border-gray-100">
+        <div className="w-full h-full rounded-full overflow-hidden border-4 border-gray-100 ">
           {image ? (
             <img
               src={image}
@@ -162,6 +162,7 @@ const Profile = () => {
   );
 
   return (
+    <div className="bg-[#D6EAF8]">
     <div className="max-w-3xl mx-auto p-6">
       <Card className="shadow-lg">
         <CardHeader className="border-b">
@@ -241,6 +242,7 @@ const Profile = () => {
           </div>
         </CardContent>
       </Card>
+    </div>
     </div>
   );
 };

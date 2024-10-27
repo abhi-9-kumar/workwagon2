@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
     role:{
         type:String,
         required:[true,"Please provide your role"],
-        enum:["Job Seeker","Employer","Admin"],
+        enum:["Job Seeker","Employer"],
     },
     isVerified:{
         type:Boolean,
@@ -65,6 +65,10 @@ const userSchema = new mongoose.Schema({
             required:true
         }
     },
+    isAdmin:{
+        type:Boolean,
+        default:false,
+    }
 
 });
 

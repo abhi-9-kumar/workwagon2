@@ -58,6 +58,10 @@ const jobSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 export const Job = mongoose.model("Job", jobSchema);

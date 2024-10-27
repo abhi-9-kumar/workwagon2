@@ -123,3 +123,16 @@ export const postJob = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler(`Invalid ID / CastError`, 404));
     }
   });
+
+  export const verifyJob = catchAsyncError(async (req, res, next)=>{
+    const { id } = req.params;
+    const {isVerified} = req.body;
+    const job = await Job.findByIdAndUpdate(id, { isVerified }, { new: true });
+    if (!job) {
+      return next(new ErrorHandler("Job not found.", 404));
+    }
+    res.status(200).json({
+      success: true,
+      message: "Job verified successfully!",
+    });
+  });

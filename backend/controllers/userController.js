@@ -28,17 +28,27 @@ export const login = catchAsyncError(async (req, res, next) => {
     }
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return next(new ErrorHandler("Invalid Email Or Password.", 400));
+      return next(new ErrorHandler("Invalid Email.", 400));
     }
     const isPasswordMatched = await user.comparePassword(password);
     if (!isPasswordMatched) {
       return next(new ErrorHandler("Invalid Email Or Password.", 400));
     }
-    if (user.role !== role) {
-      return next(
-        new ErrorHandler(`User with provided email and ${role} not found!`, 404)
-      );
+
+    if(role == "Admin"){
+      if(!user.isAdmin){
+        return next(
+          new ErrorHandler(`User with provided email is not admin!`, 404)
+        );
+      }
+    } else {
+      if (user.role !== role) {
+        return next(
+          new ErrorHandler(`User with provided email and ${role} not found!`, 404)
+        );
+      }
     }
+    
     sendToken(user, 200, res, "User Logged In Successfully!");
   });
   
@@ -169,4 +179,26 @@ if(profileImage){
 
   updateUserByEmail(user.email, updatedData);
 
+});
+
+
+export const getAllUsers = catchAsyncError(async(req, res, next)=>{
+  const users = await User.find();
+  res.status(200).json({
+    success: true,
+    users,
+  });
+})
+
+export const verifyUser = catchAsyncError(async (req, res, next)=>{
+  const { id } = req.params;
+  const {isVerified} = req.body;
+  const user = await User.findByIdAndUpdate(id, { isVerified }, { new: true });
+  if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+  }
+  res.status(200).json({
+    success: true,
+    message: "User verified successfully!",
+  });
 });
