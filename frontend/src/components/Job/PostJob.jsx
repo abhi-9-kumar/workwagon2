@@ -46,7 +46,7 @@ const PostJob = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/v1/job/post",
+        "https://workwagon-server.onrender.com/api/v1/job/post",
         jobData,
         {
           withCredentials: true,

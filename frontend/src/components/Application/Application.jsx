@@ -37,7 +37,7 @@ const Application = () => {
     try {
       // const api = import.meta.env.VITE_API_END_POINT;
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/application/post",
+        "https://workwagon-server.onrender.com/api/v1/application/post",
         formData,
         {
           withCredentials: true,
