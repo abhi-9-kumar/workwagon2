@@ -22,13 +22,15 @@ const AdminHomePage = () => {
         array2.push(element);
       }
     });
+    console.log(data?.users)
     setJobSeekers(array1);
     setEmployers(array2);
   };
   const fetchAllJobs = async () => {
     const { data } = await magicRequest.get('job/getall');
     setJobs(data?.jobs);
-    console.log(data.jobs[0]._id)
+    console.log(data?.jobs)[0]
+    
   }
 
   useEffect(() => {
@@ -207,27 +209,52 @@ const AdminHomePage = () => {
 
       {/* Selected Details */}
       {selectedDetails && (
-        <div className="mt-8 bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-xl font-semibold mb-4">Details</h3>
-          <pre className="text-sm">{JSON.stringify(selectedDetails, null, 2)}</pre>
-          <div className="flex justify-end mt-4 space-x-4">
-            <button
-              className="px-6 py-3 bg-green-500 text-white rounded-lg text-lg"
-              onClick={() => handleVerify(selectedDetails.type, selectedDetails._id)}
-            >
-              Verify
-            </button>
-            <button
-              className="px-6 py-3 bg-red-500 text-white rounded-lg text-lg"
-              onClick={() => handleReject(selectedDetails.type, selectedDetails._id)}
-            >
-              Reject
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="mt-8 bg-white rounded-lg shadow-md p-4">
+    <h3 className="text-xl font-semibold mb-4">Details</h3>
+    <table className="table-auto w-full">
+      <tbody>
+        {Object.entries(selectedDetails)
+          .filter(([key]) => ['name', 'email', 'phone', 'role', 'document', 'profilePicture', 'postedBy'].includes(key)) // Exclude unwanted fields
+          .map(([key, value]) => (
+            <tr key={key} className="border-b">
+              <td className="p-2 font-semibold capitalize">{key}</td>
+              <td className="p-2">
+                {(key === 'document' || key === 'profilePicture') ? (
+                  <img
+                    src={value?.url}
+                    alt="Selected Item"
+                    className="h-64 w-64 object-cover rounded-md"
+                  />
+                ) : (
+                  value
+                )}
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+    <div className="flex justify-end mt-4 space-x-4">
+      <button
+        className="px-6 py-3 bg-green-500 text-white rounded-lg text-lg"
+        onClick={() => handleVerify(selectedDetails.type, selectedDetails._id)}
+      >
+        Verify
+      </button>
+      <button
+        className="px-6 py-3 bg-red-500 text-white rounded-lg text-lg"
+        onClick={() => handleReject(selectedDetails.type, selectedDetails._id)}
+      >
+        Reject
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };
 
 export default AdminHomePage;
+
+
